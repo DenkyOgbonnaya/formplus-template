@@ -6,6 +6,7 @@ interface IProps {
   value: string | number;
   label: string;
   children: ReactNode;
+  placeHolder?: string;
   changeHandler: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 const SelectInput: FC<IProps> = ({
@@ -13,11 +14,15 @@ const SelectInput: FC<IProps> = ({
   value,
   label,
   children,
+  placeHolder,
   changeHandler,
 }) => {
   return (
     <div className="p-3 border-[2px] border-solid m-4 relative w-full">
-      <label className="absolute -top-[0.65rem] left-5 text-[color:var(--dark-grey)] bg-white text-xs">
+      <label
+        className="absolute -top-[0.65rem] left-5 text-[color:var(--dark-grey)] bg-white text-xs"
+        aria-label={label}
+      >
         {label}
       </label>
       <select
@@ -25,6 +30,7 @@ const SelectInput: FC<IProps> = ({
         defaultValue={value}
         onChange={changeHandler}
         className="input  bg-white w-full"
+        placeholder={placeHolder}
       >
         {children}
       </select>
