@@ -16,7 +16,7 @@ const SelectInput: FC<IProps> = ({
   changeHandler,
 }) => {
   return (
-    <div className="p-3 border-[2px] border-solid m-4 relative">
+    <div className="p-3 border-[2px] border-solid m-4 relative w-full">
       <label className="absolute -top-[0.65rem] left-5 text-[color:var(--dark-grey)] bg-white text-xs">
         {label}
       </label>
