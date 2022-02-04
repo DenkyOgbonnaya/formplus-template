@@ -3,11 +3,19 @@
 @tailwind utilities;
 
 :root {
+  /*COLORS*/
   --grey: #bdbdbd;
-  --dark-grey: #8F8B8B;
+  --dark-grey: #8f8b8b;
+  --dark: #3F3F3F;
   --body-bg: #f5f8fa;
+
+  /*FONTS*/
+  --base-font-size: 0.85rem;
 }
 
+.input {
+  @apply border-none outline-none text-sm text-[color:var(--dark)];
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

@@ -1,11 +1,8 @@
+import { SelectInput } from "components";
 import { FC } from "react";
 
 const Templates: FC = () => {
-  return (
-    <>
-      <div></div>
-    </>
-  );
+  return <></>;
 };
 
 export default Templates;
