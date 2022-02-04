@@ -22,6 +22,7 @@ const SelectInput: FC<IProps> = ({
       <label
         className="absolute -top-[0.65rem] left-5 text-[color:var(--dark-grey)] bg-white text-xs"
         aria-label={label}
+        htmlFor={name}
       >
         {label}
       </label>
@@ -31,6 +32,7 @@ const SelectInput: FC<IProps> = ({
         onChange={changeHandler}
         className="input  bg-white w-full"
         placeholder={placeHolder}
+        aria-placehoder={placeHolder}
       >
         {children}
       </select>
