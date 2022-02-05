@@ -72,6 +72,7 @@ const Alert: FC<IProps> = ({ message, type }) => {
         className={`text-[${getMessgeColor(
           type
         )}] ml-5 text-sm self-center font-normal`}
+        data-testid="alert-message"
       >
         {message}
       </p>
