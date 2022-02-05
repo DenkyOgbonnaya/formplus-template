@@ -13,7 +13,7 @@
 
 :root {
   /*COLORS*/
-  --grey: #bdbdbd;
+  --grey: #989898;
   --light-grey: #989898;
   --dark-grey: #8f8b8b;
   --dark: #3f3f3f;
@@ -21,7 +21,7 @@
   --white: #ffffff;
   --white-smoke: #f9f9f9;
   --green: #08bd37;
-  --body-bg: #f5f8fa;
+  --body-bg: #E5E5E5;
 
   /*FONTS*/
   --base-font-size: 0.85rem;

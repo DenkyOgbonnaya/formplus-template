@@ -2,6 +2,7 @@ import { Alert } from "components";
 import SearchSortFilters from "components/searchSortFilters/SearchSortFilters";
 import { ChangeEvent, FC } from "react";
 import { ITemmplate } from "./components/template/Template";
+import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
 
 const Templates: FC = () => {
@@ -24,7 +25,9 @@ const Templates: FC = () => {
         <div className="my-20">
           <Alert type="message" message={alertMessage} />
         </div>
-
+        <div className="mb-7">
+          <TemplateCounter category="All Templates" total={200} />
+        </div>
         <TemplateList temlates={templates} />
       </div>
     </>
