@@ -1,13 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Circular-std";
+    src: local("Circular-std"),
+      url(./assets/fonts/circular-std-medium-500.ttf) format("ttf");
+  }
+}
 
 :root {
   /*COLORS*/
   --grey: #bdbdbd;
   --light-grey: #989898;
   --dark-grey: #8f8b8b;
-  --dark: #3F3F3F;
+  --dark: #3f3f3f;
+  --light-dark: #3f3e3e;
+  --white: #ffffff;
+  --white-smoke: #f9f9f9;
+  --green: #08bd37;
   --body-bg: #f5f8fa;
 
   /*FONTS*/
@@ -17,11 +30,12 @@
 .input {
   @apply border-none outline-none text-sm text-[color:var(--dark)];
 }
+.button {
+  @apply border-none outline-none hover:opacity-80;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
