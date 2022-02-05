@@ -32,7 +32,6 @@ const SelectInput: FC<IProps> = ({
         onChange={changeHandler}
         className="input  bg-white w-full"
         placeholder={placeHolder}
-        aria-placehoder={placeHolder}
       >
         {children}
       </select>
