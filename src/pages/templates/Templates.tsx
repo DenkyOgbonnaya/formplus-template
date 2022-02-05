@@ -1,11 +1,13 @@
-import { Alert } from "components";
+import { Alert, Pagination } from "components";
 import SearchSortFilters from "components/searchSortFilters/SearchSortFilters";
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { ITemmplate } from "./components/template/Template";
 import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
 
 const Templates: FC = () => {
+  const [currentPage] = useState<number>(1);
+  const [totalPages] = useState<number>(14);
   const alertMessage =
     "Tada! Get started with a free template. Can’t find what you are looking for? Search from the 1000+ available templates";
   const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +15,10 @@ const Templates: FC = () => {
   };
   const sortHandler = (event: ChangeEvent<HTMLSelectElement>) => {
     console.log(event);
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    console.log(pageNumber);
   };
   return (
     <>
@@ -29,6 +35,11 @@ const Templates: FC = () => {
           <TemplateCounter category="All Templates" total={200} />
         </div>
         <TemplateList temlates={templates} />
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          pageChangeHandler={handlePageChange}
+        />
       </div>
     </>
   );
