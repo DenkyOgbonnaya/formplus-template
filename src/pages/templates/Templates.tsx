@@ -10,10 +10,11 @@ import { handleGetRequest } from "services/axios";
 import { GET_TASK_TEMPLATES } from "constants/api";
 
 const Templates: FC = () => {
-  // const { templates, loading } = useAppSelector(({ templates }) => templates);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [templates, setTemplates] = useState<ITemplate[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchString, setSearchString] = useState("");
+  // const { templates, loading } = useAppSelector(({ templates }) => templates);
   // const dispatch = useAppDispatch();
 
   const templatePerPage = 12;
@@ -45,8 +46,16 @@ const Templates: FC = () => {
       }
     })();
   }, []);
+  const getSearchedTemplates = (): ITemplate[] => {
+    return paginatedTemplates.filter((template) =>
+      template.name
+        .toLocaleLowerCase()
+        .includes(searchString.toLocaleLowerCase() || "")
+    );
+  };
   const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event);
+    const { value } = event.target;
+    setSearchString(value);
   };
   const sortHandler = (event: ChangeEvent<HTMLSelectElement>) => {
     console.log(event);
@@ -63,7 +72,7 @@ const Templates: FC = () => {
     if (!templates.length)
       return <Jumbotron message="No Templates Available" />;
 
-    return <TemplateList templates={paginatedTemplates} />;
+    return <TemplateList templates={getSearchedTemplates()} />;
   };
   return (
     <>
@@ -82,7 +91,7 @@ const Templates: FC = () => {
 
         {renderTemplates()}
 
-        {getTotalPages() > 1 ? (
+        {getTotalPages() > 1 && !searchString ? (
           <Pagination
             totalPages={getTotalPages()}
             currentPage={currentPage}

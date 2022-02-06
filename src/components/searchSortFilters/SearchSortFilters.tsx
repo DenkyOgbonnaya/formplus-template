@@ -9,9 +9,10 @@ interface IProps {
 const SearchSortFilters: FC<IProps> = ({
   searchPlacholder = "",
   sortHandler,
+  searchHandler,
 }) => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("");
+    searchHandler(e);
   };
   return (
     <>
