@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { ITemplate } from "sharable/interface";
 import { fetchFormTemplates } from "./templateThunk";
 
@@ -22,6 +22,9 @@ export const TemplateSlice = createSlice({
       })
       .addCase(fetchFormTemplates.fulfilled, (state, { payload }) => {
         state.templates = payload;
+        state.loading = false;
+      })
+      .addCase(fetchFormTemplates.rejected, (state) => {
         state.loading = false;
       });
   },
