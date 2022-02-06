@@ -1,19 +1,21 @@
 import { FC } from "react";
+import { ITemplate } from "sharable/interface";
 
-export interface ITemmplate {
-  id?: string | number;
-  title: string;
-  description: string;
+export interface IProps {
+  template: ITemplate;
 }
-const Template: FC<ITemmplate> = ({ title, description }) => {
+const Template: FC<IProps> = ({ template }) => {
   return (
     <>
       <div className="w-full shadow-lg rounded-sm">
         <div className="p-5 bg-[color:var(--white)] pb-10">
-          <p className="text-2xl mb-4 font-medium font-heading"> {title} </p>
+          <p className="text-2xl mb-4 font-medium font-heading">
+            {" "}
+            {template.name}{" "}
+          </p>
           <p className="text-sm text-[color:var(--light-dark)] font-normal font-sans">
             {" "}
-            {description}{" "}
+            {template.description}{" "}
           </p>
         </div>
 

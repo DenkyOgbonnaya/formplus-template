@@ -1,15 +1,22 @@
-import { Alert, Pagination } from "components";
+import { Alert, Jumbotron, Loader, Pagination } from "components";
 import SearchSortFilters from "components/searchSortFilters/SearchSortFilters";
-import { ChangeEvent, FC, useState } from "react";
-import { ITemmplate } from "./components/template/Template";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
+import { useAppDispatch, useAppSelector } from "hooks/useRedux";
+import { fetchFormTemplates } from "./redux/templateThunk";
 
 const Templates: FC = () => {
+  const { templates, loading } = useAppSelector(({ templates }) => templates);
+  const dispatch = useAppDispatch();
   const [currentPage] = useState<number>(1);
   const [totalPages] = useState<number>(14);
   const alertMessage =
     "Tada! Get started with a free template. Can’t find what you are looking for? Search from the 1000+ available templates";
+
+  useEffect(() => {
+    dispatch(fetchFormTemplates());
+  }, []);
   const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
   };
@@ -19,6 +26,14 @@ const Templates: FC = () => {
 
   const handlePageChange = (pageNumber: number) => {
     console.log(pageNumber);
+  };
+
+  const renderTemplates = (): JSX.Element => {
+    if (loading) return <Loader message="Loading Templates..." />;
+    if (!templates.length)
+      return <Jumbotron message="No Templates Available" />;
+
+    return <TemplateList templates={templates} />;
   };
   return (
     <>
@@ -34,66 +49,19 @@ const Templates: FC = () => {
         <div className="mb-7">
           <TemplateCounter category="All Templates" total={200} />
         </div>
-        <TemplateList temlates={templates} />
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          pageChangeHandler={handlePageChange}
-        />
+
+        {renderTemplates()}
+
+        {templates.length ? (
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            pageChangeHandler={handlePageChange}
+          />
+        ) : null}
       </div>
     </>
   );
 };
-
-const templates: ITemmplate[] = [
-  {
-    id: 1,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 2,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 3,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 4,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 5,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 6,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 7,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-  {
-    id: 8,
-    title: "Alumni Membership Form Template",
-    description:
-      "Engage your alumni network better with this alumni registration form template. Embed this in your website",
-  },
-];
 
 export default Templates;

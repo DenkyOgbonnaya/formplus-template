@@ -1,0 +1,1 @@
+export const GET_TASK_TEMPLATES = "api/v1/public/task_templates"
