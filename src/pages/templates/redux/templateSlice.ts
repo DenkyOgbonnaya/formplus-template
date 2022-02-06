@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "redux/store";
 import { ITemplate } from "sharable/interface";
 import { fetchFormTemplates } from "./templateThunk";
 
@@ -9,6 +10,7 @@ interface TemplateState {
 const initialState: TemplateState = {
   templates: [],
   loading: false,
+
 };
 
 export const TemplateSlice = createSlice({

@@ -19,11 +19,9 @@ const Pagination: FC<IProps> = ({
   const handlePageChange = (direction: number) => {
     let pageNumber = 1;
     // get the next or previous page
-    if (currentPage > FIRST_PAGE || currentPage < totalPages) {
-      pageNumber = currentPage + direction;
+    pageNumber = currentPage + direction;
 
-      pageChangeHandler(pageNumber);
-    }
+    pageChangeHandler(pageNumber);
   };
   const hasNext = (): boolean => {
     return currentPage < totalPages;
@@ -37,6 +35,7 @@ const Pagination: FC<IProps> = ({
         <button
           className="flex text-[color:var(--dark)] text-lg font-semibold font-heading"
           onClick={() => handlePageChange(PAGE_DIRECTION.previous)}
+          disabled={!hasPrevious()}
         >
           {hasPrevious() && <ChevronLeftIcon className="w-5 h-5 self-center" />}
           Previous{" "}
@@ -57,6 +56,7 @@ const Pagination: FC<IProps> = ({
         <button
           className="flex text-[color:var(--dark)] text-lg font-semibold font-heading"
           onClick={() => handlePageChange(PAGE_DIRECTION.next)}
+          disabled={!hasNext()}
         >
           Next{" "}
           {hasNext() && <ChevronRightIcon className="w-5 h-5 self-center" />}{" "}
