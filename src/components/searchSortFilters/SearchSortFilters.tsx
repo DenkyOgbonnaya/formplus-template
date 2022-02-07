@@ -4,7 +4,7 @@ import { ChangeEvent, FC } from "react";
 interface IProps {
   searchPlacholder?: string;
   searchHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  sortHandler: (e: ChangeEvent<HTMLSelectElement>) => void;
+  sortHandler: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 const SearchSortFilters: FC<IProps> = ({
   searchPlacholder = "",

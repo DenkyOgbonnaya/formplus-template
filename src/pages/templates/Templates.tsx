@@ -57,7 +57,7 @@ const Templates: FC = () => {
     const { value } = event.target;
     setSearchString(value);
   };
-  const sortHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+  const sortHandler = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
   };
 

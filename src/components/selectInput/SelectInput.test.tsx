@@ -1,11 +1,11 @@
 import { render, fireEvent } from "@testing-library/react";
-import { SelectInput } from "components";
+import { Select as SelectInput, SelectOption } from "components";
 
 describe("<SelectInput/>", () => {
   it("Should render the Select input component without crashing", () => {
     const placeholderText = "Category";
     const mockChangeHandler = jest.fn();
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <SelectInput
         name="category"
         value=""
@@ -13,16 +13,16 @@ describe("<SelectInput/>", () => {
         changeHandler={mockChangeHandler}
         label="Category"
       >
-        <option value="test">Test</option>
+        <SelectOption name="category" label="Health" value="Heath" />
       </SelectInput>
     );
-    expect(getByPlaceholderText(placeholderText)).toBeInTheDocument();
+    expect(getByTestId("select-header")).toBeInTheDocument();
   });
 
-  it("Should call the select handler on input change", () => {
+  it("Should render the select items on clicked", () => {
     const placeholderText = "Category";
     const mockSelectHandler = jest.fn();
-    const { getByPlaceholderText } = render(
+    const { getByTestId, getByRole } = render(
       <SelectInput
         name="category"
         value=""
@@ -30,54 +30,11 @@ describe("<SelectInput/>", () => {
         changeHandler={mockSelectHandler}
         label="Category"
       >
-        <option value="test">Test</option>
+        <SelectOption name="category" label="Health" value="Heath" />
       </SelectInput>
     );
-    const selectInput = getByPlaceholderText(
-      placeholderText
-    ) as HTMLInputElement;
-    fireEvent.change(selectInput, { target: { value: "test" } });
-    expect(mockSelectHandler).toHaveBeenCalled();
-  });
-
-  it("Should show the correct selected", () => {
-    const placeholderText = "Category";
-    const selectValue = "Test2";
-    const mockSearchHandler = jest.fn();
-    const { getByPlaceholderText } = render(
-      <SelectInput
-        name="category"
-        value=""
-        placeHolder={placeholderText}
-        changeHandler={mockSearchHandler}
-        label="Category"
-      >
-        <option value="Test">Test</option>
-        <option value="Test2">Test2</option>
-      </SelectInput>
-    );
-    const selectInput = getByPlaceholderText(
-      placeholderText
-    ) as HTMLSelectElement;
-    fireEvent.change(selectInput, { target: { value: selectValue } });
-
-    expect(selectInput.value).toEqual(selectValue);
-  });
-
-  it("Should the correct label ", () => {
-    const placeholderText = "Category";
-    const mockChangeHandler = jest.fn();
-    const { getByText } = render(
-      <SelectInput
-        name="category"
-        value=""
-        placeHolder={placeholderText}
-        changeHandler={mockChangeHandler}
-        label="Category"
-      >
-        <option value="test">Test</option>
-      </SelectInput>
-    );
-    expect(getByText("Category")).toBeInTheDocument();
+    const selectInput = getByTestId("select-header") as HTMLDivElement;
+    fireEvent.click(selectInput);
+    expect(getByRole("list")).toBeInTheDocument();
   });
 });
