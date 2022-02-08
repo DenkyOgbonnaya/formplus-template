@@ -18,12 +18,8 @@ const SortFilters: FC<IProps> = ({ sortState, sortHandler }) => {
 
   useEffect(() => {
     setState(sortState);
-    console.log("re-rending");
   }, [sortState]);
 
-  const generateid = () => {
-    return `${Math.random() * 10}-${Math.random() * 5}`;
-  };
   return (
     <>
       <div className="flex w-full justify-between">

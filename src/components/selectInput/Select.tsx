@@ -22,7 +22,6 @@ const Select: FC<IProps> = ({
 
   useEffect(() => {
     if (value) setSelectedOption(value);
-    console.log("rerending 2", value, selectedOption);
   }, [value]);
 
   const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
