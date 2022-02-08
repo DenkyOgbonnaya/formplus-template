@@ -1,13 +1,25 @@
 import { Select, SelectOption } from "components";
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ISortState } from "sharable/interface";
 
 interface IProps {
   sortHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  sortState: ISortState;
 }
-const SortFilters: FC<IProps> = ({ sortHandler }) => {
+const SortFilters: FC<IProps> = ({ sortState, sortHandler }) => {
+  const [state, setState] = useState<ISortState>({
+    order: "",
+    category: "",
+    date: "",
+  });
   const categoriesFilter = ["All", "Education", "E-Commerce", "Health"];
   const ordersFilter = ["Default", "Ascending", "Descending"];
   const dateFilter = ["Default", "Ascending", "Descending"];
+
+  useEffect(() => {
+    setState(sortState);
+    console.log("re-rending");
+  }, [sortState]);
 
   const generateid = () => {
     return `${Math.random() * 10}-${Math.random() * 5}`;
@@ -22,13 +34,13 @@ const SortFilters: FC<IProps> = ({ sortHandler }) => {
           <Select
             name="category"
             label="Category"
-            value=""
+            value={sortState.category}
             changeHandler={sortHandler}
             placeHolder="Category"
           >
             {categoriesFilter.map((category) => (
               <SelectOption
-                key={generateid()}
+                key={category}
                 label={category}
                 value={category}
                 name="category"
@@ -40,13 +52,13 @@ const SortFilters: FC<IProps> = ({ sortHandler }) => {
           <Select
             name="order"
             label="Order"
-            value=""
+            value={sortState.order}
             changeHandler={sortHandler}
             placeHolder="Order"
           >
             {ordersFilter.map((order) => (
               <SelectOption
-                key={generateid()}
+                key={order}
                 label={order}
                 value={order}
                 name="order"
@@ -58,13 +70,13 @@ const SortFilters: FC<IProps> = ({ sortHandler }) => {
           <Select
             name="date"
             label="Date"
-            value=""
+            value={state.date}
             changeHandler={sortHandler}
             placeHolder="Date"
           >
             {dateFilter.map((order) => (
               <SelectOption
-                key={generateid()}
+                key={order}
                 label={order}
                 value={order}
                 name="date"

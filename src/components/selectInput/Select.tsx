@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import { ChangeEvent, useState, ReactNode, FC } from "react";
+import { ChangeEvent, useState, ReactNode, FC, useEffect } from "react";
 
 interface IProps {
   name: string | undefined;
@@ -17,8 +17,13 @@ const Select: FC<IProps> = ({
   placeHolder,
   changeHandler,
 }) => {
-  const [selectedOption, setSelectedOption] = useState(value || "");
+  const [selectedOption, setSelectedOption] = useState<string | number>("");
   const [showList, setShowList] = useState(false);
+
+  useEffect(() => {
+    if (value) setSelectedOption(value);
+    console.log("rerending 2", value, selectedOption);
+  }, [value]);
 
   const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);

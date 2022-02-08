@@ -1,21 +1,49 @@
-import { Alert, Jumbotron, Loader, Pagination } from "components";
-import SearchSortFilters from "components/searchSortFilters/SearchSortFilters";
+import {
+  Alert,
+  Jumbotron,
+  Loader,
+  Pagination,
+  SearchInput,
+  SortFilters,
+} from "components";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
 // import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 // import { fetchFormTemplates } from "./redux/templateThunk";
-import { ITemplate } from "sharable/interface";
+import { ISortState, ITemplate } from "sharable/interface";
 import { handleGetRequest } from "services/axios";
 import { GET_TASK_TEMPLATES } from "constants/api";
 
+interface IState {
+  currentPage: number;
+  allTemplates: ITemplate[];
+  templates: ITemplate[];
+  loading: boolean;
+  searchString: string;
+  activeCategory: string;
+  sortState: ISortState;
+}
+
 const Templates: FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [allTemplates, setAllTemplates] = useState<ITemplate[]>([]);
-  const [templates, setTemplates] = useState<ITemplate[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [searchString, setSearchString] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const sortMap = {
+    default: "Default",
+    ascending: "Ascending",
+    descending: "Descending",
+  };
+  const [currentPage, setCurrentPage] = useState<IState["currentPage"]>(1);
+  // serves as the database for all templates withou side effect
+  const [allTemplates, setAllTemplates] = useState<IState["allTemplates"]>([]);
+  const [templates, setTemplates] = useState<IState["templates"]>([]);
+  const [loading, setLoading] = useState<IState["loading"]>(false);
+  const [searchString, setSearchString] = useState<IState["searchString"]>("");
+  const [activeCategory, setActiveCategory] =
+    useState<IState["activeCategory"]>("All");
+  const [sortState, setSortState] = useState<IState["sortState"]>({
+    order: sortMap.default,
+    date: sortMap.default,
+    category: "All",
+  });
   // const { templates, loading } = useAppSelector(({ templates }) => templates);
   // const dispatch = useAppDispatch();
 
@@ -26,11 +54,7 @@ const Templates: FC = () => {
   const totalTemplates = templates.length;
   const alertMessage =
     "Tada! Get started with a free template. Can’t find what you are looking for? Search from the 1000+ available templates";
-  const sortMap = {
-    default: "Default",
-    ascending: "Ascending",
-    descending: "Descending",
-  };
+
   const filterCasesMap = {
     category: "category",
     order: "order",
@@ -78,20 +102,55 @@ const Templates: FC = () => {
     const { name, value } = event.target;
     switch (name) {
       case filterCasesMap.category:
-        const categorizedTemplates = handleCategoryFilter(value);
+        const categorizedTemplates = handleCategoryFilter(value, allTemplates);
         setTemplates(categorizedTemplates);
+        setSortState((prev) => ({
+          ...prev,
+          order: sortMap.default,
+          date: sortMap.default,
+        }));
         resetToDefault();
         setActiveCategory(value);
         break;
       case filterCasesMap.order: {
-        const sortedTemplate = handleNameSort(value, allTemplates);
+        let sortedTemplate: ITemplate[] = [];
+        // reset the date filter if active
+        if (sortState.date !== sortMap.default) {
+          const categorizedTemplates = handleCategoryFilter(
+            activeCategory,
+            allTemplates
+          );
+          sortedTemplate = handleNameSort(value, categorizedTemplates);
+        } else {
+          sortedTemplate = handleNameSort(value, templates);
+        }
         setTemplates(sortedTemplate);
+        setSortState((prev) => ({
+          ...prev,
+          order: value,
+          date: sortMap.default,
+        }));
         resetToDefault();
         break;
       }
       case filterCasesMap.date: {
-        const sortedTemplate = handleDateSort(value, allTemplates);
+        let sortedTemplate: ITemplate[] = [];
+        // reset the name filter if active
+        if (sortState.order !== sortMap.default) {
+          const categorizedTemplates = handleCategoryFilter(
+            activeCategory,
+            allTemplates
+          );
+          sortedTemplate = handleDateSort(value, categorizedTemplates);
+        } else {
+          sortedTemplate = handleDateSort(value, templates);
+        }
         setTemplates(sortedTemplate);
+        setSortState((prev) => ({
+          ...prev,
+          date: value,
+          order: sortMap.default,
+        }));
         resetToDefault();
         break;
       }
@@ -100,11 +159,14 @@ const Templates: FC = () => {
         return;
     }
   };
-  const handleCategoryFilter = (category: string): ITemplate[] => {
+  const handleCategoryFilter = (
+    category: string,
+    templates: ITemplate[]
+  ): ITemplate[] => {
     if (category === "All") {
       return allTemplates;
     } else {
-      const categorizedTEmplates = allTemplates.filter((template) =>
+      const categorizedTEmplates = templates.filter((template) =>
         template.category.includes(category)
       );
       return categorizedTEmplates;
@@ -212,11 +274,17 @@ const Templates: FC = () => {
   return (
     <>
       <div className=" p-5 sm:px-[7.25rem] sm:py-[4.95rem]">
-        <SearchSortFilters
-          sortHandler={filterHandler}
-          searchHandler={searchHandler}
-          searchPlacholder="Search Template"
-        />
+        <div className="flex flex-col justify-between w-full sm:flex-row flex-wrap">
+          <div className="w-[40%]">
+            <SearchInput
+              searchHandler={searchHandler}
+              placeHolder="Search Template"
+            />
+          </div>
+          <div className=" flex-1">
+            <SortFilters sortHandler={filterHandler} sortState={sortState} />
+          </div>
+        </div>
         <div className="my-20">
           <Alert type="message" message={alertMessage} />
         </div>

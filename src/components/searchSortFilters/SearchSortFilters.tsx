@@ -1,15 +1,18 @@
 import { SearchInput, SortFilters } from "components";
 import { ChangeEvent, FC } from "react";
+import { ISortState } from "sharable/interface";
 
 interface IProps {
   searchPlacholder?: string;
   searchHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   sortHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  sortState: ISortState
 }
 const SearchSortFilters: FC<IProps> = ({
   searchPlacholder = "",
   sortHandler,
   searchHandler,
+  sortState
 }) => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     searchHandler(e);
@@ -24,7 +27,7 @@ const SearchSortFilters: FC<IProps> = ({
           />
         </div>
         <div className=" flex-1">
-          <SortFilters sortHandler={sortHandler} />
+          <SortFilters sortHandler={sortHandler} sortState={sortState} />
         </div>
       </div>
     </>
