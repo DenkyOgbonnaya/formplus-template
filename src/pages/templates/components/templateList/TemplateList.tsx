@@ -4,7 +4,7 @@ import Template from "../template/Template";
 interface IProps {
   templates: ITemplate[];
 }
-const TemplateList: FC<IProps> = ({ templates }) => {
+const TemplateList: FC<IProps> = (({ templates }) => {
   return (
     <div className="w-full flex flex-col sm:flex-row flex-wrap sm:justify-between">
       {templates.map((template) => (
@@ -14,6 +14,6 @@ const TemplateList: FC<IProps> = ({ templates }) => {
       ))}
     </div>
   );
-};
+})
 
 export default TemplateList;

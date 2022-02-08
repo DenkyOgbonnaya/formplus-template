@@ -2,10 +2,11 @@ import { ChangeEvent, FC } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 interface IProps {
   placeHolder?: string;
+  value:string;
   label?: string;
   searchHandler: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-const SearchInput: FC<IProps> = ({ placeHolder, searchHandler, label }) => {
+const SearchInput: FC<IProps> = ({ placeHolder, searchHandler, label, value }) => {
   return (
     <div className="flex">
       <input
@@ -14,6 +15,7 @@ const SearchInput: FC<IProps> = ({ placeHolder, searchHandler, label }) => {
         placeholder={placeHolder}
         onChange={searchHandler}
         aria-label={label}
+        value={value}
       />
       <SearchIcon className="w-6 h-6 relative -ml-9 mt-3 text-[color:var(--grey)] font-light" />
     </div>

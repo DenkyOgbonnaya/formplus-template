@@ -9,6 +9,7 @@ describe("<SearchInput/>", () => {
       <SearchInput
         placeHolder={placeholderText}
         searchHandler={mockSearchHandler}
+        value=""
       />
     );
     expect(getByPlaceholderText(placeholderText)).toBeInTheDocument();
@@ -20,6 +21,7 @@ describe("<SearchInput/>", () => {
       <SearchInput
         placeHolder={placeholderText}
         searchHandler={mockSearchHandler}
+        value=""
       />
     );
     const searchInput = getByPlaceholderText(
@@ -35,6 +37,7 @@ describe("<SearchInput/>", () => {
       <SearchInput
         placeHolder={placeholderText}
         searchHandler={mockSearchHandler}
+        value=""
       />
     );
     const searchInput = getByPlaceholderText(
@@ -52,6 +55,7 @@ describe("<SearchInput/>", () => {
       <SearchInput
         placeHolder={placeholderText}
         searchHandler={mockSearchHandler}
+        value=""
       />
     );
     const searchInput = getByPlaceholderText(

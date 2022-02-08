@@ -6,7 +6,14 @@ import {
   SearchInput,
   SortFilters,
 } from "components";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
 // import { useAppDispatch, useAppSelector } from "hooks/useRedux";
@@ -104,13 +111,16 @@ const Templates: FC = () => {
       case filterCasesMap.category:
         const categorizedTemplates = handleCategoryFilter(value, allTemplates);
         setTemplates(categorizedTemplates);
+        setActiveCategory(value);
+        // reset search and filter params
         setSortState((prev) => ({
           ...prev,
           order: sortMap.default,
           date: sortMap.default,
         }));
         resetToDefault();
-        setActiveCategory(value);
+        setSearchString("");
+
         break;
       case filterCasesMap.order: {
         let sortedTemplate: ITemplate[] = [];
@@ -159,19 +169,20 @@ const Templates: FC = () => {
         return;
     }
   };
-  const handleCategoryFilter = (
-    category: string,
-    templates: ITemplate[]
-  ): ITemplate[] => {
-    if (category === "All") {
-      return allTemplates;
-    } else {
-      const categorizedTEmplates = templates.filter((template) =>
-        template.category.includes(category)
-      );
-      return categorizedTEmplates;
-    }
-  };
+
+  const handleCategoryFilter = useMemo(() => {
+    return (category: string, templates: ITemplate[]): ITemplate[] => {
+      console.log("Running expensive computations 1");
+      if (category === "All") {
+        return allTemplates;
+      } else {
+        const categorizedTEmplates = templates.filter((template) =>
+          template.category.includes(category)
+        );
+        return categorizedTEmplates;
+      }
+    };
+  }, [templates, activeCategory]);
 
   const resetToDefault = () => {
     setCurrentPage(1);
@@ -181,6 +192,7 @@ const Templates: FC = () => {
     order: string,
     templates: ITemplate[]
   ): ITemplate[] => {
+    console.log("Running expensive computations 2");
     let sortedTemplates: ITemplate[] = [];
     if (order === sortMap.ascending) {
       sortedTemplates = sortNameAscending(templates);
@@ -196,6 +208,7 @@ const Templates: FC = () => {
     order: string,
     templates: ITemplate[]
   ): ITemplate[] => {
+    console.log("Running expensive computations 3");
     let sortedTemplates: ITemplate[] = [];
     if (order === sortMap.ascending) {
       sortedTemplates = sortDateAscending(templates);
@@ -208,52 +221,62 @@ const Templates: FC = () => {
   };
 
   // template name in ascending order using the Schwartzian transformation
-  const sortNameAscending = (templates: ITemplate[]): ITemplate[] => {
-    const templatesTurple: [ITemplate, string][] = templates.map((template) => [
-      template,
-      template.name.toUpperCase(),
-    ]);
-    templatesTurple.sort((first, second) => first[1].localeCompare(second[1]));
+  const sortNameAscending = useMemo(() => {
+    return (templates: ITemplate[]): ITemplate[] => {
+      const templatesTurple: [ITemplate, string][] = templates.map(
+        (template) => [template, template.name.toUpperCase()]
+      );
+      templatesTurple.sort((first, second) =>
+        first[1].localeCompare(second[1])
+      );
 
-    return templatesTurple.map((turple) => turple[0]);
-  };
+      return templatesTurple.map((turple) => turple[0]);
+    };
+  }, [templates]);
 
   // template name in descending order using the Schwartzian transformation
-  const sortNameDescending = (templates: ITemplate[]): ITemplate[] => {
-    const templatesTurple: [ITemplate, string][] = templates.map((template) => [
-      template,
-      template.name.toUpperCase(),
-    ]);
-    templatesTurple.sort((first, second) => second[1].localeCompare(first[1]));
+  const sortNameDescending = useMemo(() => {
+    return (templates: ITemplate[]): ITemplate[] => {
+      const templatesTurple: [ITemplate, string][] = templates.map(
+        (template) => [template, template.name.toUpperCase()]
+      );
+      templatesTurple.sort((first, second) =>
+        second[1].localeCompare(first[1])
+      );
 
-    return templatesTurple.map((turple) => turple[0]);
-  };
+      return templatesTurple.map((turple) => turple[0]);
+    };
+  }, [templates]);
 
   // sort template date in ascending order using the Schwartzian transformation
-  const sortDateAscending = (templates: ITemplate[]): ITemplate[] => {
-    const templatesTurple: [ITemplate, Date][] = templates.map((template) => [
-      template,
-      new Date(template.created),
-    ]);
-    templatesTurple.sort(
-      (first, second) => first[1].getTime() - second[1].getTime()
-    );
+  const sortDateAscending = useMemo(() => {
+    return (templates: ITemplate[]): ITemplate[] => {
+      const templatesTurple: [ITemplate, Date][] = templates.map((template) => [
+        template,
+        new Date(template.created),
+      ]);
+      templatesTurple.sort(
+        (first, second) => first[1].getTime() - second[1].getTime()
+      );
 
-    return templatesTurple.map((turple) => turple[0]);
-  };
+      return templatesTurple.map((turple) => turple[0]);
+    };
+  }, [templates]);
 
   // sort template date in descending order using the Schwartzian transformation
-  const sortDateDescending = (templates: ITemplate[]): ITemplate[] => {
-    const templatesTurple: [ITemplate, Date][] = templates.map((template) => [
-      template,
-      new Date(template.created),
-    ]);
-    templatesTurple.sort(
-      (first, second) => second[1].getTime() - first[1].getTime()
-    );
+  const sortDateDescending = useMemo(() => {
+    return (templates: ITemplate[]): ITemplate[] => {
+      const templatesTurple: [ITemplate, Date][] = templates.map((template) => [
+        template,
+        new Date(template.created),
+      ]);
+      templatesTurple.sort(
+        (first, second) => second[1].getTime() - first[1].getTime()
+      );
 
-    return templatesTurple.map((turple) => turple[0]);
-  };
+      return templatesTurple.map((turple) => turple[0]);
+    };
+  }, [templates]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -279,6 +302,7 @@ const Templates: FC = () => {
             <SearchInput
               searchHandler={searchHandler}
               placeHolder="Search Template"
+              value={searchString}
             />
           </div>
           <div className=" flex-1">
