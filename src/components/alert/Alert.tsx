@@ -28,15 +28,15 @@ const Alert: FC<IProps> = ({ message, type }) => {
     message: "#252525",
   };
   const iconsColors = {
-    error: "#FC830A",
-    warning: "#FC830A",
-    success: "#FC830A",
-    message: "#FC830A",
+    error: "text-[#FC830A]",
+    warning: "text-[#FC830A]",
+    success: "text-[#FC830A]",
+    message: "text-[#FC830A]",
   };
   const icons: IIcons = {
     error: (
       <ExclamationCircleIcon
-        className={`text-[${iconsColors[type]}] w-16 h-16 font-normal sm:w-8 sm:h-8`}
+        className={`${iconsColors[type]} w-16 h-16 font-normal sm:w-8 sm:h-8`}
       />
     ),
     warning: (
@@ -51,7 +51,7 @@ const Alert: FC<IProps> = ({ message, type }) => {
     ),
     message: (
       <ExclamationCircleIcon
-        className={`text-[${iconsColors[type]} w-16 h-16 font-normal sm:w-8 sm:h-8`}
+        className={` ${iconsColors[type]} w-16 h-16 font-normal sm:w-8 sm:h-8`}
       />
     ),
   };
