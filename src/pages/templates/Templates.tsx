@@ -84,13 +84,18 @@ const Templates: FC = () => {
         setActiveCategory(value);
         break;
       case filterCasesMap.order: {
-        const sortedTemplate = handleOrderSort(value, allTemplates);
+        const sortedTemplate = handleNameSort(value, allTemplates);
         setTemplates(sortedTemplate);
         resetToDefault();
         break;
       }
-      // case filterCasesMap.date: {
-      // }
+      case filterCasesMap.date: {
+        const sortedTemplate = handleDateSort(value, allTemplates);
+        setTemplates(sortedTemplate);
+        resetToDefault();
+        break;
+      }
+
       default:
         return;
     }
@@ -110,7 +115,7 @@ const Templates: FC = () => {
     setCurrentPage(1);
   };
 
-  const handleOrderSort = (
+  const handleNameSort = (
     order: string,
     templates: ITemplate[]
   ): ITemplate[] => {
@@ -119,6 +124,21 @@ const Templates: FC = () => {
       sortedTemplates = sortNameAscending(templates);
     } else if (order === sortMap.descending) {
       sortedTemplates = sortNameDescending(templates);
+    } else {
+      return allTemplates;
+    }
+    return sortedTemplates;
+  };
+
+  const handleDateSort = (
+    order: string,
+    templates: ITemplate[]
+  ): ITemplate[] => {
+    let sortedTemplates: ITemplate[] = [];
+    if (order === sortMap.ascending) {
+      sortedTemplates = sortDateAscending(templates);
+    } else if (order === sortMap.descending) {
+      sortedTemplates = sortDateDescending(templates);
     } else {
       return allTemplates;
     }
@@ -143,6 +163,32 @@ const Templates: FC = () => {
       template.name.toUpperCase(),
     ]);
     templatesTurple.sort((first, second) => second[1].localeCompare(first[1]));
+
+    return templatesTurple.map((turple) => turple[0]);
+  };
+
+  // sort template date in ascending order using the Schwartzian transformation
+  const sortDateAscending = (templates: ITemplate[]): ITemplate[] => {
+    const templatesTurple: [ITemplate, Date][] = templates.map((template) => [
+      template,
+      new Date(template.created),
+    ]);
+    templatesTurple.sort(
+      (first, second) => first[1].getTime() - second[1].getTime()
+    );
+
+    return templatesTurple.map((turple) => turple[0]);
+  };
+
+  // sort template date in descending order using the Schwartzian transformation
+  const sortDateDescending = (templates: ITemplate[]): ITemplate[] => {
+    const templatesTurple: [ITemplate, Date][] = templates.map((template) => [
+      template,
+      new Date(template.created),
+    ]);
+    templatesTurple.sort(
+      (first, second) => second[1].getTime() - first[1].getTime()
+    );
 
     return templatesTurple.map((turple) => turple[0]);
   };
