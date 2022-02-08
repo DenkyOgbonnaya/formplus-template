@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { ITemplate } from "sharable/interface";
+import { truncateWords } from "utils/helpers";
 
 export interface IProps {
   template: ITemplate;
@@ -15,7 +16,7 @@ const Template: FC<IProps> = ({ template }) => {
           </p>
           <p className="text-sm text-[color:var(--light-dark)] font-normal font-sans">
             {" "}
-            {template.description}{" "}
+            {truncateWords(template.description, 100)}{" "}
           </p>
         </div>
 
