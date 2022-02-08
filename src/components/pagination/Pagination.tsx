@@ -42,7 +42,7 @@ const Pagination: FC<IProps> = ({
         </button>
       </div>
       <div className="flex">
-        <div className="w-8 h-8 rounded flex justify-center items-center border border-solid border-[color:var(--dark)] p-3 bg-white mr-3 ">
+        <div className=" h-8 rounded flex justify-center items-center border border-solid border-[color:var(--dark)] p-3 bg-white mr-3 ">
           {" "}
           <span className="text-[color:var(--dark)] text-lg font-semibold font-heading">
             {currentPage}
