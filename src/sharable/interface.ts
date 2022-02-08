@@ -3,5 +3,5 @@ export interface ITemplate {
   description: string;
   link: string;
   created: string;
-  category: ["Health", "E-commerce", "Education"];
+  category: string [];
 }

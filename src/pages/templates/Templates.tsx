@@ -11,9 +11,11 @@ import { GET_TASK_TEMPLATES } from "constants/api";
 
 const Templates: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [allTemplates, setAllTemplates] = useState<ITemplate[]>([]);
   const [templates, setTemplates] = useState<ITemplate[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchString, setSearchString] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
   // const { templates, loading } = useAppSelector(({ templates }) => templates);
   // const dispatch = useAppDispatch();
 
@@ -21,12 +23,19 @@ const Templates: FC = () => {
   const startPoint = currentPage * templatePerPage - templatePerPage;
   const endPoint = startPoint + templatePerPage;
   const paginatedTemplates = templates.slice(startPoint, endPoint);
-
   const totalTemplates = templates.length;
-
   const alertMessage =
     "Tada! Get started with a free template. Can’t find what you are looking for? Search from the 1000+ available templates";
-
+  const sortMap = {
+    default: "Default",
+    ascending: "Ascending",
+    descending: "Descending",
+  };
+  const filterCasesMap = {
+    category: "category",
+    order: "order",
+    date: "date",
+  };
   useEffect(() => {
     // For performance consideration, I will not be using redux store to store the templates data,
     // considering how large it is, and only needed in this page and can be Garbage collected locally on component unmount.
@@ -34,11 +43,12 @@ const Templates: FC = () => {
     // dispatch(fetchFormTemplates());
 
     (async () => {
-      if (!templates.length) {
+      if (!allTemplates.length) {
         setLoading(true);
         try {
           const data = await handleGetRequest<ITemplate[]>(GET_TASK_TEMPLATES);
           setTemplates(data);
+          setAllTemplates(data);
         } catch {
         } finally {
           setLoading(false);
@@ -46,6 +56,13 @@ const Templates: FC = () => {
       }
     })();
   }, []);
+  // listen for category change
+  // useEffect(() => {
+  //   const categorizedTEmplates = allTemplates.filter((template) =>
+  //   template.category.includes(activeCategory)
+  // );
+  // setTemplates(categorizedTEmplates)
+  // }, [activeCategory])
   const getSearchedTemplates = (): ITemplate[] => {
     return paginatedTemplates.filter((template) =>
       template.name
@@ -57,16 +74,87 @@ const Templates: FC = () => {
     const { value } = event.target;
     setSearchString(value);
   };
-  const sortHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event);
+  const filterHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    switch (name) {
+      case filterCasesMap.category:
+        const categorizedTemplates = handleCategoryFilter(value);
+        setTemplates(categorizedTemplates);
+        resetToDefault();
+        setActiveCategory(value);
+        break;
+      case filterCasesMap.order: {
+        const sortedTemplate = handleOrderSort(value, allTemplates);
+        setTemplates(sortedTemplate);
+        resetToDefault();
+        break;
+      }
+      // case filterCasesMap.date: {
+      // }
+      default:
+        return;
+    }
+  };
+  const handleCategoryFilter = (category: string): ITemplate[] => {
+    if (category === "All") {
+      return allTemplates;
+    } else {
+      const categorizedTEmplates = allTemplates.filter((template) =>
+        template.category.includes(category)
+      );
+      return categorizedTEmplates;
+    }
+  };
+
+  const resetToDefault = () => {
+    setCurrentPage(1);
+  };
+
+  const handleOrderSort = (
+    order: string,
+    templates: ITemplate[]
+  ): ITemplate[] => {
+    let sortedTemplates: ITemplate[] = [];
+    if (order === sortMap.ascending) {
+      sortedTemplates = sortNameAscending(templates);
+    } else if (order === sortMap.descending) {
+      sortedTemplates = sortNameDescending(templates);
+    } else {
+      return allTemplates;
+    }
+    return sortedTemplates;
+  };
+
+  // template name in ascending order using the Schwartzian transformation
+  const sortNameAscending = (templates: ITemplate[]): ITemplate[] => {
+    const templatesTurple: [ITemplate, string][] = templates.map((template) => [
+      template,
+      template.name.toUpperCase(),
+    ]);
+    templatesTurple.sort((first, second) => first[1].localeCompare(second[1]));
+
+    return templatesTurple.map((turple) => turple[0]);
+  };
+
+  // template name in descending order using the Schwartzian transformation
+  const sortNameDescending = (templates: ITemplate[]): ITemplate[] => {
+    const templatesTurple: [ITemplate, string][] = templates.map((template) => [
+      template,
+      template.name.toUpperCase(),
+    ]);
+    templatesTurple.sort((first, second) => second[1].localeCompare(first[1]));
+
+    return templatesTurple.map((turple) => turple[0]);
   };
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
   const getTotalPages = () => {
     return Math.ceil(templates.length / templatePerPage);
   };
+
   const renderTemplates = (): JSX.Element => {
     if (loading) return <Loader message="Loading Templates..." />;
     if (!templates.length)
@@ -74,11 +162,12 @@ const Templates: FC = () => {
 
     return <TemplateList templates={getSearchedTemplates()} />;
   };
+
   return (
     <>
       <div className=" p-5 sm:px-[7.25rem] sm:py-[4.95rem]">
         <SearchSortFilters
-          sortHandler={sortHandler}
+          sortHandler={filterHandler}
           searchHandler={searchHandler}
           searchPlacholder="Search Template"
         />
@@ -86,7 +175,10 @@ const Templates: FC = () => {
           <Alert type="message" message={alertMessage} />
         </div>
         <div className="mb-7">
-          <TemplateCounter category="All Templates" total={totalTemplates} />
+          <TemplateCounter
+            category={`${activeCategory} Templates`}
+            total={totalTemplates}
+          />
         </div>
 
         {renderTemplates()}
