@@ -154,7 +154,6 @@ const Templates: FC = () => {
 
   const handleCategoryFilter = useMemo(() => {
     return (category: string, templates: ITemplate[]): ITemplate[] => {
-      console.log("Running expensive computations 1");
       if (category === "All") {
         return allTemplates;
       } else {
@@ -174,7 +173,6 @@ const Templates: FC = () => {
     order: string,
     templates: ITemplate[]
   ): ITemplate[] => {
-    console.log("Running expensive computations 2");
     let sortedTemplates: ITemplate[] = [];
     if (order === sortMap.ascending) {
       sortedTemplates = sortNameAscending(templates);
@@ -190,7 +188,6 @@ const Templates: FC = () => {
     order: string,
     templates: ITemplate[]
   ): ITemplate[] => {
-    console.log("Running expensive computations 3");
     let sortedTemplates: ITemplate[] = [];
     if (order === sortMap.ascending) {
       sortedTemplates = sortDateAscending(templates);

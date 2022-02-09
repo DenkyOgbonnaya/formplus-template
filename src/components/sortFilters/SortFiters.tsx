@@ -12,7 +12,7 @@ const SortFilters: FC<IProps> = ({ sortState, sortHandler }) => {
     category: "",
     date: "",
   });
-  const categoriesFilter = ["All", "Education", "E-Commerce", "Health"];
+  const categoriesFilter = ["All", "Education", "E-commerce", "Health"];
   const ordersFilter = ["Default", "Ascending", "Descending"];
   const dateFilter = ["Default", "Ascending", "Descending"];
 
