@@ -6,7 +6,14 @@ import {
   SearchInput,
   SortFilters,
 } from "components";
-import { ChangeEvent, FC, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
 import { ISortState, ITemplate } from "sharable/interface";
@@ -265,12 +272,20 @@ const Templates: FC = () => {
     return Math.ceil(templates.length / templatePerPage);
   };
 
+  const handleTemplateUse = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
   const renderTemplates = (): JSX.Element => {
     if (loading) return <Loader message="Loading Templates..." />;
     if (!templates.length)
       return <Jumbotron message="No Templates Available" />;
 
-    return <TemplateList templates={getSearchedTemplates()} />;
+    return (
+      <TemplateList
+        templates={getSearchedTemplates()}
+        useHandler={handleTemplateUse}
+      />
+    );
   };
 
   return (

@@ -1,11 +1,12 @@
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { ITemplate } from "sharable/interface";
 import { truncateWords } from "utils/helpers";
 
 export interface IProps {
   template: ITemplate;
+  useHandler: (e: MouseEvent<HTMLButtonElement>) => void;
 }
-const Template: FC<IProps> = ({ template }) => {
+const Template: FC<IProps> = ({ template, useHandler }) => {
   return (
     <>
       <div className="w-full shadow-lg rounded-sm block overflow-hidden h-full">
@@ -21,7 +22,10 @@ const Template: FC<IProps> = ({ template }) => {
         </div>
 
         <div className="p-5 bg-[color:var(--white-smoke)]">
-          <button className="button text-sm font-normal text-[color:var(--green)] font-heading">
+          <button
+            className="button text-sm font-normal text-[color:var(--green)] font-heading"
+            onClick={useHandler}
+          >
             Use Template
           </button>
         </div>
