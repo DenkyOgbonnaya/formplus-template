@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://front-end-task-dot-result-analytics-dot-fpls-dev.uc.r.appspot.com"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
