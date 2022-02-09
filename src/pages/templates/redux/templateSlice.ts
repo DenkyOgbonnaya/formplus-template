@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "redux/store";
 import { ITemplate } from "sharable/interface";
 import { fetchFormTemplates } from "./templateThunk";
 
