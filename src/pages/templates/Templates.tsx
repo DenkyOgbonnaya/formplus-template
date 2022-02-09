@@ -295,7 +295,7 @@ const Templates: FC = () => {
           <div className="w-full sm:w-[25%] md:w-[25%] lg:w-[20%] mb-4 self-center">
             <SearchInput
               searchHandler={searchHandler}
-              placeHolder="Search Templates"
+              placeHolder="Search Templatesryyyriiir"
               value={searchString}
             />
           </div>
