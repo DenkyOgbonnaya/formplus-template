@@ -73,7 +73,6 @@ const Templates: FC = () => {
         setLoading(true);
         try {
           const data = await handleGetRequest<ITemplate[]>(GET_TASK_TEMPLATES);
-          console.log(data[0])
           setTemplates(data);
           setAllTemplates(data);
         } catch {
@@ -82,7 +81,7 @@ const Templates: FC = () => {
         }
       }
     })();
-  }, []);
+  }, [allTemplates.length]);
 
   const getSearchedTemplates = (): ITemplate[] => {
     return paginatedTemplates?.filter((template) =>
@@ -171,7 +170,7 @@ const Templates: FC = () => {
         return categorizedTEmplates;
       }
     };
-  }, [templates, activeCategory]);
+  }, [allTemplates]);
 
   const resetToDefault = () => {
     setCurrentPage(1);
@@ -219,7 +218,7 @@ const Templates: FC = () => {
 
       return templatesTurple.map((turple) => turple[0]);
     };
-  }, [templates]);
+  }, []);
 
   // template name in descending order using the Schwartzian transformation
   const sortNameDescending = useMemo(() => {
@@ -233,7 +232,7 @@ const Templates: FC = () => {
 
       return templatesTurple.map((turple) => turple[0]);
     };
-  }, [templates]);
+  }, []);
 
   // sort template date in ascending order using the Schwartzian transformation
   const sortDateAscending = useMemo(() => {
@@ -248,7 +247,7 @@ const Templates: FC = () => {
 
       return templatesTurple.map((turple) => turple[0]);
     };
-  }, [templates]);
+  }, []);
 
   // sort template date in descending order using the Schwartzian transformation
   const sortDateDescending = useMemo(() => {
@@ -263,7 +262,7 @@ const Templates: FC = () => {
 
       return templatesTurple.map((turple) => turple[0]);
     };
-  }, [templates]);
+  }, []);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
