@@ -6,18 +6,9 @@ import {
   SearchInput,
   SortFilters,
 } from "components";
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEvent, FC, useEffect, useMemo, useState } from "react";
 import TemplateCounter from "./components/templateConter/TemplateCounter";
 import TemplateList from "./components/templateList/TemplateList";
-// import { useAppDispatch, useAppSelector } from "hooks/useRedux";
-// import { fetchFormTemplates } from "./redux/templateThunk";
 import { ISortState, ITemplate } from "sharable/interface";
 import { handleGetRequest } from "services/axios";
 import { GET_TASK_TEMPLATES } from "constants/api";
@@ -51,8 +42,6 @@ const Templates: FC = () => {
     date: sortMap.default,
     category: "All",
   });
-  // const { templates, loading } = useAppSelector(({ templates }) => templates);
-  // const dispatch = useAppDispatch();
 
   const templatePerPage = 12;
   const startPoint = currentPage * templatePerPage - templatePerPage;
@@ -70,8 +59,7 @@ const Templates: FC = () => {
   useEffect(() => {
     // For performance consideration, I will not be using redux store to store the templates data,
     // considering how large it is, and only needed in this page and can be Garbage collected locally on component unmount.
-    // All lines of code that has to do with the redux store will be commented out on this file
-    // dispatch(fetchFormTemplates());
+    // All lines of code that has to do with the redux store will be removed out on this file
 
     (async () => {
       if (!allTemplates.length) {
@@ -87,13 +75,7 @@ const Templates: FC = () => {
       }
     })();
   }, []);
-  // listen for category change
-  // useEffect(() => {
-  //   const categorizedTEmplates = allTemplates.filter((template) =>
-  //   template.category.includes(activeCategory)
-  // );
-  // setTemplates(categorizedTEmplates)
-  // }, [activeCategory])
+
   const getSearchedTemplates = (): ITemplate[] => {
     return paginatedTemplates.filter((template) =>
       template.name
@@ -296,20 +278,20 @@ const Templates: FC = () => {
 
   return (
     <>
-      <div className=" p-5 sm:px-[7.25rem] sm:py-[4.95rem]">
+      <div className=" p-5 sm:p-3 lg:px-[7.25rem] lg:py-[4.95rem]">
         <div className="flex flex-col justify-between w-full sm:flex-row flex-wrap">
-          <div className="w-[40%]">
+          <div className="w-full sm:w-[25%] md:w-[25%] lg:w-[20%] mb-4 self-center">
             <SearchInput
               searchHandler={searchHandler}
-              placeHolder="Search Template"
+              placeHolder="Search Templates"
               value={searchString}
             />
           </div>
-          <div className=" flex-1">
+          <div className=" mb-4 sm:w-[70%] md:w-[70%] lg:w-[50%]">
             <SortFilters sortHandler={filterHandler} sortState={sortState} />
           </div>
         </div>
-        <div className="my-20">
+        <div className=" mt-3 mb-10 sm:my-20">
           <Alert type="message" message={alertMessage} />
         </div>
         <div className="mb-7">

@@ -16,7 +16,7 @@
   --grey: #989898;
   --light-grey: #989898;
   --dark-grey: #8f8b8b;
-  --dark: #3f3f3f;
+  --dark: #463434;
   --light-dark: #3f3e3e;
   --white: #ffffff;
   --white-smoke: #f9f9f9;
@@ -28,7 +28,7 @@
 }
 
 .input {
-  @apply border-none outline-none text-sm text-[color:var(--dark)];
+  @apply border-none outline-none text-sm text-[color:var(--dark)] font-normal;
 }
 .button {
   @apply border-none outline-none hover:opacity-80;

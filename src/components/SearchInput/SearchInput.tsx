@@ -8,16 +8,16 @@ interface IProps {
 }
 const SearchInput: FC<IProps> = ({ placeHolder, searchHandler, label, value }) => {
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <input
-        className=" border border-[color:var(--grey)] h-11 rounded-sm outline-none text-sm p-3 pr-9 font-normal"
+        className=" border w-full  h-11 rounded-sm outline-none text-sm p-3 pr-9 font-normal"
         type="text"
         placeholder={placeHolder}
         onChange={searchHandler}
         aria-label={label}
         value={value}
       />
-      <SearchIcon className="w-6 h-6 relative -ml-9 mt-3 text-[color:var(--grey)] font-light" />
+      <SearchIcon className="w-6 h-6 relative -ml-9 mt-3 text-[color:var(--dark-grey)] font-light" />
     </div>
   );
 };

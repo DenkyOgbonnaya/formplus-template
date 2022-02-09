@@ -37,9 +37,9 @@ const Select: FC<IProps> = ({
     setShowList(false);
   };
   return (
-    <div className="p-3 border-[2px] border-solid m-4 relative w-full">
+    <div className="p-3 border-[1px] border-solid my-3 relative w-full sm:p-3">
       <label
-        className="absolute -top-[0.65rem] left-5 text-[color:var(--dark-grey)] bg-white text-xs"
+        className="absolute -top-[0.65rem] left-5 text-[color:var(--dark-grey)] bg-white text-xs mr-3 after:con"
         aria-label={label}
         htmlFor={name}
       >

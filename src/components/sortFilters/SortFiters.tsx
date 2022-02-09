@@ -21,67 +21,65 @@ const SortFilters: FC<IProps> = ({ sortState, sortHandler }) => {
   }, [sortState]);
 
   return (
-    <>
-      <div className="flex w-full justify-between">
-        <div className="w-[32%] flex" data-testid="custom-select">
-          <span className="text-sm self-center text-[color:var(--light-grey)]">
-            Sort By:
-          </span>
-          <Select
-            name="category"
-            label="Category"
-            value={sortState.category}
-            changeHandler={sortHandler}
-            placeHolder="Category"
-          >
-            {categoriesFilter.map((category) => (
-              <SelectOption
-                key={category}
-                label={category}
-                value={category}
-                name="category"
-              />
-            ))}
-          </Select>
-        </div>
-        <div className="w-[32%] flex" data-testid="custom-select">
-          <Select
-            name="order"
-            label="Order"
-            value={sortState.order}
-            changeHandler={sortHandler}
-            placeHolder="Order"
-          >
-            {ordersFilter.map((order) => (
-              <SelectOption
-                key={order}
-                label={order}
-                value={order}
-                name="order"
-              />
-            ))}
-          </Select>
-        </div>
-        <div className="w-[32%] flex" data-testid="custom-select">
-          <Select
-            name="date"
-            label="Date"
-            value={state.date}
-            changeHandler={sortHandler}
-            placeHolder="Date"
-          >
-            {dateFilter.map((order) => (
-              <SelectOption
-                key={order}
-                label={order}
-                value={order}
-                name="date"
-              />
-            ))}
-          </Select>
-        </div>
+    <div className="flex flex-col justify-between sm:flex-row">
+      <p className=" self-start font-normal text-sm text-[color:var(--light-grey)] sm:self-center">Sort By:</p>
+
+      <div
+        className="w-full  flex self-start sm:w-[28%]"
+        data-testid="custom-select"
+      >
+        <Select
+          name="category"
+          label="Category"
+          value={sortState.category}
+          changeHandler={sortHandler}
+          placeHolder="Order"
+        >
+          {categoriesFilter.map((category) => (
+            <SelectOption
+              key={category}
+              label={category}
+              value={category}
+              name="category"
+            />
+          ))}
+        </Select>
       </div>
-    </>
+      <div
+        className="w-full  flex self-start sm:w-[28%]"
+        data-testid="custom-select"
+      >
+        <Select
+          name="order"
+          label="Order"
+          value={sortState.order}
+          changeHandler={sortHandler}
+          placeHolder="Order"
+        >
+          {ordersFilter.map((order) => (
+            <SelectOption
+              key={order}
+              label={order}
+              value={order}
+              name="order"
+            />
+          ))}
+        </Select>
+      </div>
+      <div className="w-full  flex sm:w-[28%]" data-testid="custom-select">
+        <Select
+          name="date"
+          label="Date"
+          value={state.date}
+          changeHandler={sortHandler}
+          placeHolder="Date"
+        >
+          {dateFilter.map((order) => (
+            <SelectOption key={order} label={order} value={order} name="date" />
+          ))}
+        </Select>
+      </div>
+    </div>
   );
 };
 

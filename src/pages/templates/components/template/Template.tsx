@@ -8,7 +8,7 @@ export interface IProps {
 const Template: FC<IProps> = ({ template }) => {
   return (
     <>
-      <div className="w-full shadow-lg rounded-sm">
+      <div className="w-full shadow-lg rounded-sm block overflow-hidden h-full">
         <div className="p-5 bg-[color:var(--white)] pb-10">
           <p className="text-2xl mb-4 font-medium font-heading">
             {" "}
