@@ -73,6 +73,7 @@ const Templates: FC = () => {
         setLoading(true);
         try {
           const data = await handleGetRequest<ITemplate[]>(GET_TASK_TEMPLATES);
+          console.log(data[0])
           setTemplates(data);
           setAllTemplates(data);
         } catch {
@@ -84,7 +85,7 @@ const Templates: FC = () => {
   }, []);
 
   const getSearchedTemplates = (): ITemplate[] => {
-    return paginatedTemplates.filter((template) =>
+    return paginatedTemplates?.filter((template) =>
       template.name
         .toLocaleLowerCase()
         .includes(searchString.toLocaleLowerCase() || "")
@@ -295,7 +296,7 @@ const Templates: FC = () => {
           <div className="w-full sm:w-[25%] md:w-[25%] lg:w-[20%] mb-4 self-center">
             <SearchInput
               searchHandler={searchHandler}
-              placeHolder="Search Templatesryyyriiir"
+              placeHolder="Search Templates"
               value={searchString}
             />
           </div>
