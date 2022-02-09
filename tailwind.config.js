@@ -8,5 +8,6 @@ module.exports = {
       },
     },
   },
-  plugins: ["./src/components/**/*.{js,jsx, tsx}", "./public/index.html"],
+  plugins: [],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"]
 };
