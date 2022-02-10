@@ -30,17 +30,16 @@ const Pagination: FC<IProps> = ({
     return currentPage > FIRST_PAGE;
   };
   return (
-    <div className="flex justify-between">
-      <div>
-        <button
-          className="flex text-[color:var(--dark)] text-lg font-normal font-heading"
-          onClick={() => handlePageChange(PAGE_DIRECTION.previous)}
-          disabled={!hasPrevious()}
-        >
-          {hasPrevious() && <ChevronLeftIcon className="w-5 h-5 self-center" />}
-          Previous{" "}
-        </button>
-      </div>
+    <div className="flex justify-between" data-testid="pagination">
+      <button
+        className="flex text-[color:var(--dark)] text-lg font-normal font-heading"
+        onClick={() => handlePageChange(PAGE_DIRECTION.previous)}
+        disabled={!hasPrevious()}
+      >
+        {hasPrevious() && <ChevronLeftIcon className="w-5 h-5 self-center" />}
+        Previous{" "}
+      </button>
+
       <div className="flex">
         <div className=" h-8 rounded flex justify-center items-center border border-solid border-[color:var(--dark)] p-3 bg-white mr-3 ">
           {" "}
@@ -52,16 +51,14 @@ const Pagination: FC<IProps> = ({
           of {totalPages}
         </p>
       </div>
-      <div>
-        <button
-          className="flex text-[color:var(--dark)] text-lg font-normal font-heading"
-          onClick={() => handlePageChange(PAGE_DIRECTION.next)}
-          disabled={!hasNext()}
-        >
-          Next{" "}
-          {hasNext() && <ChevronRightIcon className="w-5 h-5 self-center" />}{" "}
-        </button>
-      </div>
+
+      <button
+        className="flex text-[color:var(--dark)] text-lg font-normal font-heading"
+        onClick={() => handlePageChange(PAGE_DIRECTION.next)}
+        disabled={!hasNext()}
+      >
+        Next {hasNext() && <ChevronRightIcon className="w-5 h-5 self-center" />}{" "}
+      </button>
     </div>
   );
 };
