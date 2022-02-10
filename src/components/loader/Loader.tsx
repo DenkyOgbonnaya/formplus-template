@@ -5,7 +5,7 @@ interface IProps {
 }
 const Loader: FC<IProps> = ({ message }) => {
   return (
-    <div className="p-3 flex justify-center">
+    <div className="p-3 flex justify-center" data-testid="loader">
       <p className="text-sm font-heading font-semibold text-[color:var(--dark)]">
         {message}
       </p>
