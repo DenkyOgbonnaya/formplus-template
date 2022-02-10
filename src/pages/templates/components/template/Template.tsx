@@ -13,7 +13,7 @@ const Template: FC<IProps> = ({ template, useHandler }) => {
         <div className="p-5 bg-[color:var(--white)] pb-10">
           <p className="text-2xl mb-4 font-medium font-heading">
             {" "}
-            {template.name}{" "}
+            {truncateWords(template.name, 50)}{" "}
           </p>
           <p className="text-sm text-[color:var(--light-dark)] font-normal font-sans">
             {" "}
