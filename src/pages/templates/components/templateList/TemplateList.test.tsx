@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { ITemplate } from "sharable/interface";
 import TemplateList from "./TemplateList";
 
-describe("<Template />", () => {
+describe("<TemplateList />", () => {
   let templates: ITemplate[];
   beforeEach(() => {
     templates = [
