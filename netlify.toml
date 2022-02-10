@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/api/*"
-  to = "https://front-end-task-dot-result-analytics-dot-fpls-dev.uc.r.appspot.com/:splat"
+  to = "https://front-end-task-dot-result-analytics-dot-fpls-dev.uc.r.appspot.com/api/:splat"
   status = 200
 
 [[redirects]]
