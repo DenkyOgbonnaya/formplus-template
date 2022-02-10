@@ -29,7 +29,7 @@ describe("<Template />", () => {
       <Template template={template} useHandler={mockFn} />
     );
 
-    const templateDescription = getByText(`${template.description}...`);
+    const templateDescription = getByText(`${template.description}`);
 
     expect(templateDescription).toBeInTheDocument();
   });

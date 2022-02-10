@@ -14,7 +14,7 @@ describe("<TemplateList />", () => {
         created: "",
       },
       {
-        name: "Test",
+        name: "Test2",
         description: "Short description",
         link: "",
         category: ["Health"],
@@ -28,8 +28,8 @@ describe("<TemplateList />", () => {
       <TemplateList templates={templates} useHandler={mockFn} />
     );
 
-    const templateNames = getAllByText(templates[0].name);
+    const templateDescription = getAllByText(templates[0].description);
 
-    expect(templateNames.length).toBe(2);
+    expect(templateDescription.length).toBe(2);
   });
 });
