@@ -68,7 +68,7 @@ const Select: FC<IProps> = ({
 
         {showList && (
           <div
-            className="flex flex-col justify-between w-full border absolute"
+            className="flex flex-col justify-between w-full border absolute bg-white z-10"
             onChange={handleSelect}
             role="list"
           >
