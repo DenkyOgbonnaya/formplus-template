@@ -55,5 +55,11 @@
     "postcss": "^8.4.6",
     "tailwindcss": "^3.0.18"
   },
-  "proxy": "https://front-end-task-dot-result-analytics-dot-fpls-dev.uc.r.appspot.com"
+  "proxy": "https://front-end-task-dot-result-analytics-dot-fpls-dev.uc.r.appspot.com",
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "resetMocks": false
+  }
 }
